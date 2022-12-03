@@ -26,19 +26,19 @@ import lombok.Setter;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "student")
+@Table(name = "users")
 public class User implements UserDetails {
 
 
     @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
+            name = "user_sequence",
+            sequenceName = "user_sequence",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
+            generator = "user_sequence"
     )
     private Long id;
     @Column(nullable = false)

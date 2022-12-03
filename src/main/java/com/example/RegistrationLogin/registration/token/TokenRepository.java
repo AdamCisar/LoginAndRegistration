@@ -1,22 +1,22 @@
-package com.example.RegistrationLogin.user;
+package com.example.RegistrationLogin.registration.token;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface TokenRepository extends JpaRepository<Token, Long>{
 
-	Optional<User> findByEmail(String email);
+	Optional<Token> findByToken(String token);
 
 	@Transactional
     @Modifying
-    @Query("update User u " + "SET u.enabled = true where u.email = ?1")
-    int enableUser(String email);
+    @Query("UPDATE Token c " + "SET c.confirmedAt = ?2 " + "WHERE c.token = ?1")
+    int updateConfirmedAt(String token, LocalDateTime confirmedAt);
 }

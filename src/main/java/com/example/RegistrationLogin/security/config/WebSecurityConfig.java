@@ -12,7 +12,7 @@ public class WebSecurityConfig {
     	
 	@Bean
 	protected DefaultSecurityFilterChain config(HttpSecurity http) throws Exception {
-	    http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/register").permitAll().and()
+	    http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/register", "/api/register/confirm").permitAll().and()
         .formLogin();
 	
 	    return http.build();

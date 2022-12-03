@@ -1,12 +1,16 @@
 package com.example.RegistrationLogin.user;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.RegistrationLogin.registration.EmailValidator;
+import com.example.RegistrationLogin.registration.token.Token;
+import com.example.RegistrationLogin.registration.token.TokenService;
 
 import lombok.AllArgsConstructor;
 
@@ -16,6 +20,7 @@ public class UserService implements UserDetailsService{
 
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptpswd;
+	private final TokenService tokenService;
 	
 
 	@Override
@@ -36,7 +41,21 @@ public class UserService implements UserDetailsService{
 		
 		userRepository.save(user);
 		
-		return "You have been registrated!";
+		String tokenUuid = UUID.randomUUID().toString();
+		Token token = new Token(
+					tokenUuid,
+					LocalDateTime.now(),
+					LocalDateTime.now().plusMinutes(15),
+					user
+				);
+				
+		tokenService.saveToken(token);
+		
+		return tokenUuid;
+	}
+
+	public int enableUser(String email) {
+		return userRepository.enableUser(email);
 	}
 
 }
