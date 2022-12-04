@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RegistrationController {
 	
-	private RegistrationService registrationService;
+	private final RegistrationService registrationService;
 	
 
 	@PostMapping(path = "/api/register")
